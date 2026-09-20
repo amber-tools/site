@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>amber-confluence — edit self-hosted Confluence as Markdown</title>
+<meta name="description" content="Edit self-hosted Confluence Server and Data Center pages as Markdown. Your macros, panels and layouts come back exactly as they were. A command line tool and an MCP server.">
+<link rel="canonical" href="https://amber.pm/">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="logo-180.png">
+<meta property="og:title" content="amber-confluence">
+<meta property="og:description" content="Edit self-hosted Confluence pages as Markdown. Your macros come back exactly as they were.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://amber.pm/">
+<meta property="og:image" content="https://amber.pm/logo.png">
+<style>
+  :root {
+    color-scheme: light dark;
+
+    --amber:      #d97706;
+    --amber-dark: #b45309;
+    --amber-lit:  #fbbf24;
+    --amber-soft: #fcd34d;
+
+    --deep:  #064e3b;
+    --green: #047857;
+    --mid:   #10b981;
+    --light: #6ee7b7;
+
+    --bg: #ffffff;
+    --bg-soft: #f5faf8;
+    --bg-code: #0b1f1a;
+    --text: #16201c;
+    --text-dim: #586862;
+    --line: #dfe9e4;
+    --code-text: #d7efe6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0c1512;
+      --bg-soft: #111d19;
+      --bg-code: #071310;
+      --text: #e8f2ee;
+      --text-dim: #94a9a1;
+      --line: #1e2f29;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16.5px/1.7 ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
+  img { max-width: 100%; height: auto; }
+
+  /* ---------- hero ---------- */
+
+  header {
+    padding: 64px 0 52px;
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(620px 300px at 78% -60px, rgba(217,119,6,.20), transparent 68%),
+      radial-gradient(900px 340px at 30% -140px, rgba(16,185,129,.16), transparent 70%);
+  }
+
+  /* The logo sits beside the words at every width: it shrinks rather than
+     jumping above the heading, so the first screen always reads the same. */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr clamp(88px, 24vw, 280px);
+    gap: clamp(16px, 4vw, 36px);
+    align-items: center;
+  }
+  .hero figure img { width: 100%; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid var(--light);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+  @media (prefers-color-scheme: dark) {
+    .eyebrow { color: var(--light); border-color: var(--green); }
+  }
+
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(29px, 5.4vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -.02em;
+  }
+
+  .lede {
+    margin: 0 0 28px;
+    font-size: clamp(17px, 2.4vw, 19.5px);
+    color: var(--text-dim);
+    max-width: 48ch;
+  }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+
+  .copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-code);
+    color: var(--code-text);
+    border: 0;
+    border-radius: 10px;
+    padding: 13px 14px 13px 16px;
+    font-size: 14.5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    cursor: pointer;
+  }
+  .copy:hover { outline: 1px solid var(--amber); }
+  .copy .prompt { color: var(--amber-soft); }
+  .copy .icon { width: 16px; height: 16px; stroke: var(--amber-soft); fill: none; stroke-width: 1.7; }
+  .copy .done { color: var(--amber-soft); font-size: 13px; display: none; }
+  .copy.copied .done { display: inline; }
+  .copy.copied .icon { display: none; }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 20px;
+    border-radius: 10px;
+    background: var(--amber);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .button:hover { background: var(--amber-dark); }
+
+  /* ---------- sections ---------- */
+
+  section { padding: 54px 0; border-bottom: 1px solid var(--line); }
+
+  h2 {
+    margin: 0 0 14px;
+    font-size: clamp(22px, 3.4vw, 28px);
+    letter-spacing: -.015em;
+    line-height: 1.25;
+  }
+
+  p { margin: 0 0 16px; max-width: 66ch; }
+  .dim { color: var(--text-dim); }
+
+  pre {
+    background: var(--bg-code);
+    color: var(--code-text);
+    border-radius: 12px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.75;
+    margin: 0 0 18px;
+  }
+  pre .c { color: #7f9b91; }
+  pre .g { color: var(--light); }
+  pre .m { color: var(--amber-soft); font-weight: 600; }
+  pre .w { color: #fbbf24; }
+
+  figure { margin: 0 0 20px; }
+
+  .steps { display: grid; gap: 14px; margin: 0 0 22px; padding: 0; list-style: none; }
+  .steps li {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .steps .n {
+    width: 28px; height: 28px;
+    display: grid; place-items: center;
+    border-radius: 999px;
+    background: var(--amber-lit);
+    color: #3b2206;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    background: var(--bg-soft);
+  }
+  .card h3 { margin: 0 0 6px; font-size: 15px; font-family: ui-monospace, Menlo, monospace; color: var(--green); }
+  @media (prefers-color-scheme: dark) { .card h3 { color: var(--light); } }
+  .card p { margin: 0; font-size: 14.5px; color: var(--text-dim); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 15.5px; }
+  td { padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { white-space: nowrap; font-weight: 600; }
+  .table-scroll { overflow-x: auto; }
+
+  a { color: var(--green); }
+  @media (prefers-color-scheme: dark) { a { color: var(--light); } }
+
+  footer { padding: 36px 0 60px; color: var(--text-dim); font-size: 14.5px; }
+  footer a { text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <div>
+      <span class="eyebrow">Confluence Server &amp; Data Center</span>
+      <h1>Edit your Confluence pages as Markdown.</h1>
+      <p class="lede">
+        Pull a page, change it in your own editor, put it back. Your macros, panels and
+        layouts come back exactly as they were.
+      </p>
+
+      <div class="cta">
+        <button class="copy" id="copy" type="button" aria-label="Copy the install command">
+          <span class="prompt">$</span>
+          <span id="cmd">npm install -g amber-confluence</span>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="9" y="9" width="12" height="12" rx="2"/>
+            <path d="M5 15V5a2 2 0 0 1 2-2h10"/>
+          </svg>
+          <span class="done">copied</span>
+        </button>
+        <a class="button" href="https://github.com/amber-tools/amber-confluence">View on GitHub →</a>
+      </div>
+    </div>
+
+    <figure>
+      <img src="logo.webp" width="300" height="300"
+           alt="A drop of amber with a fern frond preserved whole inside it.">
+    </figure>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>No Markdown. No diffs. No agents.<br>Just the browser.</h2>
+    <p>
+      Atlassian's tools stop at Cloud. If your company hosts its own Confluence, none of
+      them reach your wiki: no editing from your machine, no diffs, no agents. You are
+      left with the browser.
+    </p>
+    <p>
+      And you cannot edit the raw page format by hand. One careless change breaks the
+      macros, the anchors and the column layouts, and usually a colleague finds out days
+      later.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Three commands, and you are done</h2>
+
+    <ul class="steps">
+      <li><span class="n">1</span><span><b>Pull the page.</b> It lands on your disk as plain Markdown you can open anywhere.</span></li>
+      <li><span class="n">2</span><span><b>Edit it</b> in whatever you already use — your editor, your diff tool, your agent.</span></li>
+      <li><span class="n">3</span><span><b>Push it back.</b> See what will change first, then publish.</span></li>
+    </ul>
+
+    <pre><span class="c">$</span> amber confluence pull 100000001
+Onboarding  (v12, space DEMO)
+~/amber/pages/100000001.md
+
+<span class="c">$</span> amber confluence diff 100000001
+  ## Owners
+<span class="w">- Analyst: John Doe</span>
+<span class="g">+ Analyst: John Doe, standing in for the release</span>
+<span class="g">+ ## Rollout</span>
+<span class="g">+ Staged, two regions first.</span>
+
+<span class="c">$</span> amber confluence push 100000001 -m "rollout section"
+Onboarding  v12 -> v13</pre>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Your macros come back exactly as they were</h2>
+    <p>
+      Most tools rebuild Confluence markup after you edit, and that is where macros get
+      mangled. This one rebuilds nothing. Anything Markdown cannot carry is set aside
+      before the conversion and put back afterwards, byte for byte.
+    </p>
+
+    <figure>
+      <img src="editor.svg" alt="An editor window showing the page as Markdown, with a green marker where the warning panel sits.">
+    </figure>
+
+    <p>
+      You see a small marker where the macro sits. Move it, copy it, delete it on purpose
+      — all fine. You cannot break what is inside it, because nothing inside it ever
+      passes through the conversion.
+    </p>
+
+    <figure>
+      <img src="roundtrip.svg" alt="A page is pulled into Markdown with markers standing in for macros, edited, and pushed back with the macros restored byte for byte.">
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>It will not let you overwrite a colleague</h2>
+    <p>
+      If someone edited the page while you were working, publishing would replace their
+      text with yours and leave no trace. So it stops and tells you who, when, and what to
+      do next.
+    </p>
+    <pre><span class="c">$</span> amber confluence push 100000001
+<span class="w">Refusing to publish: the page changed after you pulled it.</span>
+  your copy: v12
+  on the server: v14, last edited by John Doe at 2026-09-20T09:14:00Z
+
+Pull again and reapply your edit, or repeat with force to overwrite their work.</pre>
+    <p>
+      It stops in one more case: when a marker went missing from your text. That macro or
+      attachment would vanish from the page, so it names every one of them before anything
+      is published.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Your agent gets the same tool</h2>
+    <p>
+      An MCP server ships with it, so Claude and other agents work on your wiki through
+      the same rules — including the refusals, which arrive as plain text an agent can
+      read and act on.
+    </p>
+    <div class="grid">
+      <div class="card"><h3>confluence_pull</h3><p>read a page as Markdown</p></div>
+      <div class="card"><h3>confluence_push</h3><p>replace the page body</p></div>
+      <div class="card"><h3>confluence_replace</h3><p>change one passage without touching the rest</p></div>
+      <div class="card"><h3>confluence_status</h3><p>see whether your copy went out of date</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What you need to sign in</h2>
+    <div class="table-scroll">
+      <table>
+        <tr><td>Data Center 7.9 or newer</td><td>A personal access token from your profile settings.</td></tr>
+        <tr><td>Anything older</td><td>Your usual password. Those versions have no tokens, and plenty of companies still run them.</td></tr>
+        <tr><td>A wiki anyone can read</td><td>Nothing at all.</td></tr>
+      </table>
+    </div>
+    <p class="dim" style="margin-top:18px">
+      Whatever you use goes into your system keychain, never into a config file. Put a
+      token in the config file and it will tell you to move it.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="https://github.com/amber-tools/amber-confluence">GitHub</a> ·
+    <a href="https://www.npmjs.com/package/amber-confluence">npm</a> ·
+    MIT · built by <a href="https://github.com/ambertoadess">Evgeniya Mironova</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("copy").addEventListener("click", function () {
+    var button = this;
+    var text = document.getElementById("cmd").textContent;
+
+    function show() {
+      button.classList.add("copied");
+      setTimeout(function () { button.classList.remove("copied"); }, 1600);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(show, fallback);
+    } else {
+      fallback();
+    }
+
+    /* Clipboard access is refused on insecure origins and in some browsers,
+       so there is a path that works without it. */
+    function fallback() {
+      var field = document.createElement("textarea");
+      field.value = text;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      try { document.execCommand("copy"); show(); } catch (e) {}
+      document.body.removeChild(field);
+    }
+  });
+</script>
+
+</body>
+</html>

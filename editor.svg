@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" width="640" height="340" role="img" aria-label="An editor window showing a Confluence page as Markdown, with a green marker standing in for a macro." font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <defs>
+    <style>
+      .win   { fill: #0b1f1a; rx: 14; }
+      .bar   { fill: #102b24; }
+      .dot   { fill: #1f4d41; }
+      .t     { fill: #d7efe6; font-size: 13px; }
+      .dim   { fill: #7f9b91; font-size: 13px; }
+      .head  { fill: #ffffff; font-size: 14px; font-weight: 600; }
+      .mark  { fill: #fbbf24; font-size: 13px; font-weight: 600; }
+      .chip  { fill: #fbbf24; fill-opacity: .14; stroke: #fbbf24; stroke-width: 1.2; rx: 6; }
+      .label { fill: #fcd34d; font-size: 11.5px; font-family: ui-sans-serif, system-ui, sans-serif; }
+      .lead  { stroke: #fbbf24; stroke-width: 1.2; fill: none; }
+    </style>
+  </defs>
+
+  <rect class="win" x="8" y="8" width="624" height="300"/>
+  <path d="M8 22a14 14 0 0 1 14-14h596a14 14 0 0 1 14 14v22H8z" class="bar"/>
+  <circle class="dot" cx="32" cy="26" r="5"/>
+  <circle class="dot" cx="50" cy="26" r="5"/>
+  <circle class="dot" cx="68" cy="26" r="5"/>
+  <text class="dim" x="96" y="31" font-size="12">100000001.md</text>
+
+  <text class="dim" x="32"  y="74">---</text>
+  <text class="dim" x="32"  y="94">page_id: 100000001   version: 12</text>
+  <text class="dim" x="32"  y="114">---</text>
+
+  <text class="head" x="32" y="148"># Onboarding</text>
+
+  <rect class="chip" x="28" y="166" width="168" height="24"/>
+  <text class="mark" x="36" y="183">⟦macro.warning#1⟧</text>
+
+  <text class="t" x="32" y="216">Sign-up runs from the landing page.</text>
+
+  <text class="t" x="32" y="248">| Term    | Definition          |</text>
+  <text class="t" x="32" y="268">| Account | The page after sign-in |</text>
+
+  <!-- callout -->
+  <path class="lead" d="M200 178 H268 a10 10 0 0 0 10 -10 V150"/>
+  <text class="label" x="286" y="176">the warning panel lives here,</text>
+  <text class="label" x="286" y="192">untouched while you edit around it</text>
+</svg>
