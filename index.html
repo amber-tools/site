@@ -21,14 +21,15 @@
   :root {
     color-scheme: light dark;
 
-    /* The drop in the logo is #f59e0b. Anything that asks to be clicked sits
-       one step darker than it, so buttons read as amber rather than brown. */
-    --amber:      #e08c07;
-    --amber-hot:  #f59e0b;
-    --amber-lit:  #fbbf24;
-    --amber-soft: #fcd34d;
-    --amber-ink:  #a35f04;
-    --on-amber:   #33200a;
+    /* Buttons carry the drop's own colour, with near-black text on top.
+       Accents use a hotter orange that stays legible on white. Nothing in
+       the palette is darkened towards brown. */
+    --amber:      #f59e0b;
+    --amber-hot:  #fbbf24;
+    --amber-lit:  #fcd34d;
+    --amber-soft: #fde68a;
+    --accent:     #ea580c;
+    --on-amber:   #2a1802;
 
     --green: #047857;
     --mid:   #10b981;
@@ -51,7 +52,7 @@
       --text: #e9f3ef;
       --text-dim: #93a9a1;
       --line: #1c2c27;
-      --amber-ink: #fbbf24;
+      --accent: #fdba74;
     }
   }
 
@@ -68,7 +69,7 @@
   .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
   code, pre { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
   img { max-width: 100%; height: auto; }
-  a { color: var(--amber-ink); }
+  a { color: var(--accent); }
 
   /* ---------- hero ---------- */
 
@@ -93,13 +94,13 @@
     font-size: 12px;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--amber-ink);
+    color: var(--accent);
     border: 1px solid var(--amber-lit);
     border-radius: 999px;
     padding: 4px 12px;
     margin-bottom: 18px;
   }
-  @media (prefers-color-scheme: dark) { .eyebrow { border-color: var(--amber); } }
+  @media (prefers-color-scheme: dark) { .eyebrow { border-color: var(--accent); } }
 
   h1 {
     margin: 0 0 14px;
@@ -107,7 +108,7 @@
     line-height: 1.08;
     letter-spacing: -.025em;
   }
-  .hl { color: var(--amber-ink); }
+  .hl { color: var(--accent); }
 
   .lede {
     margin: 0 0 26px;
@@ -131,7 +132,7 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     cursor: pointer;
   }
-  .copy:hover { outline: 2px solid var(--amber-hot); }
+  .copy:hover { outline: 2px solid var(--amber); }
   .copy .prompt { color: var(--amber-lit); }
   .copy .icon { width: 16px; height: 16px; stroke: var(--amber-lit); fill: none; stroke-width: 1.7; }
   .copy .done { color: var(--amber-lit); font-size: 13px; display: none; }
@@ -202,7 +203,7 @@
     width: 28px; height: 28px;
     display: grid; place-items: center;
     border-radius: 999px;
-    background: var(--amber-hot);
+    background: var(--amber);
     color: var(--on-amber);
     font-size: 13px; font-weight: 700;
   }
@@ -223,7 +224,7 @@
     margin: 0 0 6px;
     font-size: 14.5px;
     font-family: ui-monospace, Menlo, monospace;
-    color: var(--amber-ink);
+    color: var(--text);
   }
   .card p { margin: 0; font-size: 14.5px; color: var(--text-dim); }
 
@@ -243,7 +244,8 @@
   .closer .cta { justify-content: center; }
 
   footer { padding: 34px 0 58px; color: var(--text-dim); font-size: 14.5px; }
-  footer a { text-decoration: none; }
+  footer a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); }
+  footer a:hover { border-bottom-color: var(--accent); }
 </style>
 </head>
 <body>
