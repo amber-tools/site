@@ -256,8 +256,8 @@
       <span class="eyebrow">Confluence Server &amp; Data Center</span>
       <h1>Your Confluence, <span class="hl">as Markdown</span>.<br>For you and your agents.</h1>
       <p class="lede">
-        Pull a page, edit it anywhere, push it back. Macros, panels and layouts return
-        byte for byte — because they are never rebuilt.
+        Pull a page, edit it anywhere, push it back. Whatever you did not touch comes back
+        byte for byte — macros, layouts, line breaks, colours and all.
       </p>
 
       <div class="cta">
@@ -275,8 +275,8 @@
 
       <ul class="stats">
         <li><b>0</b> dependencies</li>
-        <li><b>236</b> tests</li>
-        <li><b>7.4+</b> supported</li>
+        <li><b>400+</b> tests</li>
+        <li><b>76 of 76</b> real pages byte for byte</li>
         <li><b>MIT</b></li>
       </ul>
     </div>
@@ -371,9 +371,15 @@ Onboarding  v12 -> v13</pre>
       lozenges turn into plain words and column layouts collapse.
     </p>
     <p>
-      This one rebuilds nothing. Whatever Markdown cannot carry is lifted out before the
-      conversion and dropped back in afterwards, unchanged. A marker shows you where it
-      sits, so you can move it or delete it on purpose — and cannot corrupt it by accident.
+      This one rebuilds nothing it does not have to. Whatever Markdown cannot carry is
+      lifted out before the conversion and dropped back in afterwards, unchanged. A marker
+      shows you where it sits, so you can move it or delete it on purpose — and cannot
+      corrupt it by accident.
+    </p>
+    <p>
+      And every paragraph you did not edit goes back as its original markup, not a
+      re-rendering of it. Tested on 76 real pages from public Confluence 9.2 and 10.2
+      instances: untouched, every one comes back identical to the last byte.
     </p>
 
     <figure>
