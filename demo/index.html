@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support policy · amber-confluence demo</title>
+<meta name="description" content="A demo wiki page edited by an AI agent with amber-confluence. Compare versions 12 and 13: one line changed, everything else kept.">
+<link rel="icon" href="../mark.svg" type="image/svg+xml">
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f4f5f7; color: #172b4d; font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0052cc; }
+
+  .demo-bar { background: #fde68a; color: #2a1802; font-size: 14px; padding: 9px 16px; text-align: center; }
+  .demo-bar a { color: #2a1802; font-weight: 600; }
+
+  .wrap { max-width: 920px; margin: 24px auto 48px; padding: 0 16px; }
+  .win { background: #fff; border-radius: 10px; box-shadow: 0 1px 2px rgba(9,30,66,.25), 0 8px 28px rgba(9,30,66,.10); overflow: hidden; }
+
+  .bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 12px 22px; border-bottom: 1px solid #dfe1e6; font-size: 14px; }
+  .crumb { color: #6b778c; } .crumb b { color: #172b4d; }
+  .tabs { margin-left: auto; display: inline-flex; border: 1px solid #dfe1e6; border-radius: 8px; overflow: hidden; }
+  .tabs a { padding: 6px 14px; color: #42526e; text-decoration: none; font-weight: 600; }
+  .tabs a[aria-current="page"] { background: #0052cc; color: #fff; }
+
+  .vers { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #dfe1e6; }
+  .v { padding: 12px 22px; font-size: 14px; color: #42526e; }
+  .v + .v { border-left: 1px solid #dfe1e6; }
+  .v b { display: block; color: #172b4d; font-size: 15px; }
+  .v i { color: #172b4d; }
+  .legend { display: flex; gap: 16px; padding: 8px 22px; border-bottom: 1px solid #dfe1e6; font-size: 13px; color: #6b778c; background: #fafbfc; }
+  .sw { width: 20px; height: 11px; border-radius: 3px; display: inline-block; vertical-align: -1px; margin-right: 6px; }
+
+  .meta { padding: 10px 22px; border-bottom: 1px solid #dfe1e6; font-size: 14px; color: #6b778c; }
+
+  .page { padding: 22px 22px 28px; }
+  h1 { font-size: 30px; line-height: 1.2; margin-bottom: 16px; }
+  .info { background: #deebff; border-radius: 6px; padding: 12px 16px; margin-bottom: 18px; display: flex; gap: 10px; align-items: center; }
+  .info i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; background: #0052cc; color: #fff; font-weight: 700; font-size: 14px; line-height: 22px; text-align: center; flex: none; }
+  h2 { font-size: 21px; margin: 4px 0 8px; }
+  p { font-size: 17px; margin-bottom: 16px; }
+  del { background: #ffebe6; color: #bf2600; border-radius: 3px; padding: 1px 5px; }
+  ins { background: #e3fcef; color: #006644; text-decoration: none; font-weight: 600; border-radius: 3px; padding: 1px 5px; margin-left: 4px; }
+  .view-page del { display: none; }
+  .view-page ins { background: none; color: inherit; font-weight: inherit; padding: 0; margin: 0; }
+  .view-page .vers, .view-page .legend { display: none; }
+  .view-compare .meta { display: none; }
+
+  .tbl { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; max-width: 640px; font-size: 15px; }
+  th, td { border: 1px solid #c1c7d0; padding: 9px 12px; text-align: left; }
+  th { background: #f4f5f7; }
+  .lz { font-size: 11px; font-weight: 700; letter-spacing: .03em; padding: 3px 7px; border-radius: 3px; text-transform: uppercase; }
+  .g { background: #e3fcef; color: #006644; } .b { background: #deebff; color: #0747a6; } .n { background: #dfe1e6; color: #42526e; }
+
+  footer { margin-top: 18px; font-size: 14px; color: #6b778c; text-align: center; }
+
+  @media (max-width: 600px) {
+    .vers { grid-template-columns: 1fr; }
+    .v + .v { border-left: 0; border-top: 1px solid #dfe1e6; }
+    .tabs { margin-left: 0; }
+  }
+</style>
+</head>
+<body class="view-page">
+
+<div class="demo-bar">
+  Demo page, edited by an AI agent with <a href="https://amber.pm">amber-confluence</a>.
+</div>
+
+<div class="wrap">
+  <div class="win">
+    <div class="bar">
+      <span class="crumb">Support / <b>Support policy</b></span>
+      <nav class="tabs" aria-label="View">
+        <a href="#" data-view="page" aria-current="page">Page</a>
+        <a href="#compare" data-view="compare">Compare versions</a>
+      </nav>
+    </div>
+
+    <div class="meta">Version 13 · edited today via AI agent · “SLA shortened to 2 hours”</div>
+    <div class="vers">
+      <div class="v"><b>Version 12</b>Nov 20, 2026 · John Doe</div>
+      <div class="v"><b>Version 13 (current)</b>Today · via AI agent · <i>“SLA shortened to 2 hours”</i></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:#ffebe6;border:1px solid #ffbdad"></i>Removed</span>
+      <span><i class="sw" style="background:#e3fcef;border:1px solid #abf5d1"></i>Added</span>
+    </div>
+
+    <div class="page">
+      <h1>Support policy</h1>
+      <div class="info"><i>i</i>These response times apply to all paid plans.</div>
+      <h2>Response times</h2>
+      <p>Support SLA: <del>4 hours</del><ins>2 hours</ins> for the first response.</p>
+      <div class="tbl">
+        <table>
+          <tr><th>Channel</th><th>Hours</th><th>Status</th></tr>
+          <tr><td>Email</td><td>Mon–Fri, 9:00–18:00</td><td><span class="lz g">Active</span></td></tr>
+          <tr><td>Chat</td><td>Mon–Fri, 9:00–18:00</td><td><span class="lz b">Beta</span></td></tr>
+          <tr><td>Phone</td><td>—</td><td><span class="lz n">Planned</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Made-up company and data. Edit your own Confluence Server or Data Center pages like this with
+    <a href="https://agensi.io/skills/amber-confluence-edit-self-hosted-confluence-with-ai">the agent skill</a>.
+  </footer>
+</div>
+
+<script>
+  function show(view) {
+    document.body.className = "view-" + view;
+    document.querySelectorAll(".tabs a").forEach(function (a) {
+      if (a.dataset.view === view) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+  }
+  function fromHash() { show(location.hash === "#compare" ? "compare" : "page"); }
+  window.addEventListener("hashchange", fromHash);
+  fromHash();
+</script>
+</body>
+</html>
