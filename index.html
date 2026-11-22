@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>amber-confluence — Confluence as Markdown, for you and your agents</title>
-<meta name="description" content="Edit self-hosted Confluence pages as Markdown, from your editor or from an AI agent over MCP. Macros, panels and layouts come back byte for byte. Zero dependencies, MIT.">
+<title>amber-confluence — let your AI agent edit Confluence, formatting intact</title>
+<meta name="description" content="Let your AI agent edit self-hosted Confluence pages. It changes only what you asked; macros, tables, panels and status labels stay exactly as they were. Free, open source, MIT.">
 <link rel="canonical" href="https://amber.pm/">
 <link rel="icon" href="mark.svg" type="image/svg+xml">
 <link rel="icon" href="icon-32.png" sizes="32x32">
 <link rel="icon" href="icon-16.png" sizes="16x16">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta property="og:title" content="amber-confluence">
-<meta property="og:description" content="Confluence as Markdown, for you and your agents. Macros come back byte for byte.">
+<meta property="og:description" content="Let your AI agent edit Confluence. The formatting stays.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://amber.pm/">
 <meta property="og:image" content="https://amber.pm/og.png">
@@ -196,6 +196,9 @@
   pre .w { color: var(--amber-lit); }
 
   figure { margin: 0 0 20px; }
+  .shot { margin: 22px 0 0; }
+  .shot img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(10, 40, 30, .08); }
+  .shot figcaption { margin-top: 10px; font-size: 14px; color: var(--text-dim); }
 
   .steps { display: grid; gap: 14px; margin: 0 0 22px; padding: 0; list-style: none; }
   .steps li { display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: baseline; }
@@ -254,10 +257,10 @@
   <div class="wrap hero">
     <div>
       <span class="eyebrow">Confluence Server &amp; Data Center</span>
-      <h1>Your Confluence, <span class="hl">as Markdown</span>.<br>For you and your agents.</h1>
+      <h1>Let your AI agent edit Confluence.<br><span class="hl">The formatting stays.</span></h1>
       <p class="lede">
-        Pull a page, edit it anywhere, push it back. Whatever you did not touch comes back
-        byte for byte — macros, layouts, line breaks, colours and all.
+        Ask your agent to fix, update or rewrite any page. It changes only what you asked.
+        Macros, tables, panels and status labels stay exactly as they were.
       </p>
 
       <div class="cta">
@@ -270,7 +273,7 @@
           </svg>
           <span class="done">copied</span>
         </button>
-        <a class="button" href="https://github.com/amber-tools/confluence-markdown">GitHub →</a>
+        <a class="button" href="https://agensi.io/skills/amber-confluence-edit-self-hosted-confluence-with-ai">Agent skill →</a>
       </div>
 
       <ul class="stats">
@@ -289,6 +292,53 @@
 </header>
 
 <section class="lead-in">
+  <div class="wrap">
+    <h2>Ask. <span class="hl">It's done.</span></h2>
+    <p>
+      Tell your agent what to change, in plain words. It edits the page and leaves a version
+      comment, so the change shows up in the page history like any other edit.
+    </p>
+    <figure class="shot">
+      <img src="img/how-it-works.png" width="1200" height="790" loading="lazy"
+           alt="A request to change the support SLA, the agent's answer, and the page history comparing versions 12 and 13: one line changed, the panel and table untouched.">
+      <figcaption>See the result on the <a href="demo/">demo page</a>.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Nothing breaks</h2>
+    <p>
+      Expand macros, pivot tables, panels, status labels, attachments, column layouts.
+      Whatever the agent did not touch comes back exactly as it was.
+    </p>
+    <figure class="shot">
+      <img src="img/nothing-breaks.png" width="1200" height="640" loading="lazy"
+           alt="Before and after: only the intro changed from Q3 to Q4; the expand macro and the pivot table are kept.">
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Rewrite a whole page. <span class="hl">Keep its structure.</span></h2>
+    <p>
+      Pair it with the Humanizer skill and your agent turns bureaucratic requirements into
+      plain language. The text changes; the panels, tables and statuses stay. Any language.
+    </p>
+    <figure class="shot">
+      <img src="img/humanizer-en.png" width="1200" height="700" loading="lazy"
+           alt="Before and after: a requirements page rewritten in plain language with the Humanizer skill; the info panel and status labels are kept.">
+    </figure>
+    <figure class="shot">
+      <img src="img/humanizer-ru.png" width="1200" height="740" loading="lazy"
+           alt="The same before and after on a Russian page.">
+    </figure>
+  </div>
+</section>
+
+<section>
   <div class="wrap">
     <h2>Give an agent your wiki <span class="hl">without giving it a shredder</span></h2>
     <p>
@@ -429,7 +479,7 @@ Pull again and reapply your edit, or repeat with force to overwrite their work.<
 
 <div class="closer">
   <div class="wrap">
-    <h2>Try it on the page you have open right now.</h2>
+    <h2>Let your agent edit the page you have open right now.</h2>
     <p class="dim" style="max-width:52ch;margin-bottom:24px">
       One package, no dependencies, installs in under a second.
     </p>
