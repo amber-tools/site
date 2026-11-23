@@ -196,6 +196,21 @@
   pre .w { color: var(--amber-lit); }
 
   figure { margin: 0 0 20px; }
+  .topbar { display: block; background: var(--amber); color: var(--on-amber); text-align: center; padding: 10px 16px; font-size: 15px; font-weight: 600; text-decoration: none; }
+  .topbar:hover { background: var(--amber-hot); }
+  .topbar span { text-decoration: underline; text-underline-offset: 3px; }
+  .howto { counter-reset: step; list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 26px; }
+  .howto > li { display: grid; grid-template-columns: 30px 1fr; gap: 14px; }
+  .howto > li::before { counter-increment: step; content: counter(step); width: 28px; height: 28px; display: grid; place-items: center; border-radius: 999px; background: var(--amber); color: var(--on-amber); font-size: 13px; font-weight: 700; margin-top: 2px; }
+  .howto > li > div { min-width: 0; }
+  .howto h3 { margin: 0 0 6px; font-size: 18px; }
+  .howto p { margin: 0 0 10px; }
+  .howto pre { margin: 0 0 10px; font-size: 13px; white-space: pre-wrap; word-break: break-all; }
+  .howto code { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 13.5px; overflow-wrap: anywhere; }
+  .howto .dim { font-size: 14.5px; }
+  details.dev summary { cursor: pointer; font-weight: 700; font-size: 18px; }
+  details.dev summary::marker { color: var(--accent); }
+  .steps code { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 14px; word-break: break-all; }
   .shot { margin: 22px 0 0; }
   .shot img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(10, 40, 30, .08); }
   .shot figcaption { margin-top: 10px; font-size: 14px; color: var(--text-dim); }
@@ -252,6 +267,7 @@
 </style>
 </head>
 <body>
+<a class="topbar" href="https://agensi.io/skills/amber-confluence-edit-self-hosted-confluence-with-ai">The Amber Confluence agent skill is on Agensi. <span>Get it here →</span></a>
 
 <header>
   <div class="wrap hero">
@@ -274,6 +290,7 @@
           <span class="done">copied</span>
         </button>
         <a class="button" href="https://agensi.io/skills/amber-confluence-edit-self-hosted-confluence-with-ai">Agent skill →</a>
+        <a href="#how-to-use" style="align-self:center;font-weight:600">How to use ↓</a>
       </div>
 
       <ul class="stats">
@@ -340,14 +357,97 @@
 
 <section>
   <div class="wrap">
-    <h2>Give an agent your wiki <span class="hl">without giving it a shredder</span></h2>
+    <h2>Your colleagues' work is safe</h2>
     <p>
-      Atlassian's MCP server stops at Cloud. This one runs against the Confluence your
-      company hosts itself, and hands an agent four operations with the guardrails built
-      in: it cannot silently drop a macro, and it cannot publish over an edit somebody
-      made while it was working.
+      If someone edited the page while your agent was working, the agent stops. It tells you
+      who changed the page and when, then reapplies your change on top of theirs.
+      Nothing is overwritten unless you say so.
     </p>
+    <p>
+      The same goes for any panel, table or macro that would disappear: the agent stops
+      and names it before anything is published.
+    </p>
+  </div>
+</section>
 
+<section>
+  <div class="wrap">
+    <h2>Works where your company's wiki lives</h2>
+    <div class="table-scroll">
+      <table>
+        <tr><td>Confluence</td><td>Server and Data Center, the versions companies host themselves. Not Cloud: Atlassian covers that.</td></tr>
+        <tr><td>Sign-in</td><td>A personal access token on Data Center 7.9 and newer, your usual password on older versions.</td></tr>
+        <tr><td>Your token</td><td>Kept in your system keychain. Never in a chat, never in a file.</td></tr>
+        <tr><td>Your agent</td><td>Claude Code, Claude Desktop, Cursor, VS Code, Copilot and any agent with MCP or a terminal.</td></tr>
+      </table>
+    </div>
+    <p class="dim" style="margin-top:18px">
+      Company certificates and proxies are handled. Your pages go only to your own Confluence.
+    </p>
+  </div>
+</section>
+
+<section id="how-to-use">
+  <div class="wrap">
+    <h2>How to use it</h2>
+    <p>About ten minutes, once. You need Node.js 18 or newer and access to your company's Confluence.</p>
+    <ol class="howto">
+      <li><div>
+        <h3>Install the tool</h3>
+        <pre><span class="c">$</span> npm i -g amber-tools/confluence-markdown</pre>
+      </div></li>
+      <li><div>
+        <h3>Tell it where your wiki is</h3>
+        <p>Create the file <code>~/.config/amber/config.toml</code> with your wiki's address:</p>
+        <pre>[confluence]
+url = "https://wiki.yourcompany.com"</pre>
+      </div></li>
+      <li><div>
+        <h3>Save your token</h3>
+        <p>In Confluence: your avatar → <b>Settings</b> → <b>Personal Access Tokens</b> → <b>Create token</b>. Copy it, then store it in your keychain (macOS asks you to paste it):</p>
+        <pre><span class="c">$</span> security add-generic-password -s amber-confluence-token -a amber -w</pre>
+        <p class="dim">No tokens in your Confluence (versions before Data Center 7.9)? Add <code>user = "you@yourcompany.com"</code> to the config file and store your password instead:</p>
+        <pre><span class="c">$</span> security add-generic-password -s amber-confluence -a you@yourcompany.com -w</pre>
+        <p class="dim">On Linux and Windows, put the token in <code>AMBER_CONFLUENCE_TOKEN</code> in the agent settings in step 5.</p>
+      </div></li>
+      <li><div>
+        <h3>Check that it works</h3>
+        <p>Open any page in your browser and copy its address:</p>
+        <pre><span class="c">$</span> amber confluence doctor "https://wiki.yourcompany.com/pages/viewpage.action?pageId=123"</pre>
+        <p class="dim">Every line should get a tick. The check only reads; it never changes the page.</p>
+      </div></li>
+      <li><div>
+        <h3>Connect your agent</h3>
+        <p>Claude Code:</p>
+        <pre><span class="c">$</span> claude mcp add confluence -- amber-confluence-mcp</pre>
+        <p>Claude Desktop, Cursor, VS Code and other MCP clients: add this to the MCP settings and restart the app.</p>
+        <pre>{ <span class="g">"mcpServers"</span>: { <span class="g">"confluence"</span>: { <span class="g">"command"</span>: <span class="m">"amber-confluence-mcp"</span> } } }</pre>
+        <p class="dim">If the app says it cannot find the command, run <code>which amber-confluence-mcp</code> and put the full path it prints in place of <code>amber-confluence-mcp</code>.</p>
+      </div></li>
+      <li><div>
+        <h3>Add the skill</h3>
+        <p>Get <a href="https://agensi.io/skills/amber-confluence-edit-self-hosted-confluence-with-ai">the agent skill on Agensi</a> and connect Agensi to your agent (<a href="https://www.agensi.io/mcp">one-minute setup</a>). The skill teaches your agent to edit pages safely: which tool to use, how to keep macros, what to do when a colleague edited the page first.</p>
+      </div></li>
+      <li><div>
+        <h3>Ask</h3>
+        <p>Paste a page link and say what to change:</p>
+        <pre>Use my Agensi skill Amber Confluence. On https://wiki.yourcompany.com/pages/viewpage.action?pageId=123 change the support SLA from 4 hours to 2 hours.</pre>
+        <p class="dim">Then open the page history in Confluence: one new version, with a comment saying what changed.</p>
+      </div></li>
+    </ol>
+  </div>
+</section>
+
+
+<section>
+  <div class="wrap">
+    <details class="dev">
+      <summary>For developers: the MCP server and the command line</summary>
+      <p style="margin-top:18px">
+        The tool is free and open source. It runs as an MCP server for agents and as a
+        command line tool for people. Anything Markdown cannot express is lifted out before
+        the conversion and put back unchanged; the agent sees a marker in its place.
+      </p>
     <pre>{
   <span class="g">"mcpServers"</span>: {
     <span class="g">"confluence"</span>: {
@@ -356,45 +456,13 @@
     }
   }
 }</pre>
-
     <div class="grid">
       <div class="card"><h3>confluence_pull</h3><p>read a page as Markdown</p></div>
       <div class="card"><h3>confluence_push</h3><p>replace the page body</p></div>
       <div class="card"><h3>confluence_replace</h3><p>change one passage, leave the rest alone</p></div>
       <div class="card"><h3>confluence_status</h3><p>see whether a local copy went stale</p></div>
     </div>
-
-    <p class="dim" style="margin-top:20px">
-      Refusals reach the agent as plain text it can read and act on, not as errors it has
-      to guess about. Works in Claude Desktop, Claude Code and any other MCP client.
-    </p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>No Markdown. No diffs. No agents.<br>Just the browser.</h2>
-    <p>
-      That is life on every self-hosted Confluence today. Atlassian's tooling only talks
-      to Cloud, so nothing on your machine reaches your own wiki.
-    </p>
-    <p>
-      And the raw page format is a trap. One careless edit takes out the macros, the
-      anchors and the column layouts, and a colleague finds out days later.
-    </p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Three commands, and you are done</h2>
-
-    <ul class="steps">
-      <li><span class="n">1</span><span><b>Pull.</b> The page lands on your disk as plain Markdown with a small header.</span></li>
-      <li><span class="n">2</span><span><b>Edit</b> in your editor, your diff tool, your agent — whatever you already use.</span></li>
-      <li><span class="n">3</span><span><b>Push.</b> See exactly what will change first, then publish.</span></li>
-    </ul>
-
+      <p style="margin-top:22px">From the terminal:</p>
     <pre><span class="c">$</span> amber confluence pull 100000001
 Onboarding  (v12, space DEMO)
 ~/amber/pages/100000001.md
@@ -409,71 +477,13 @@ Onboarding  (v12, space DEMO)
 
 <span class="c">$</span> amber confluence push 100000001 -m "rollout section"
 Onboarding  v12 -> v13</pre>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Byte for byte. <span class="hl">Not best effort.</span></h2>
-    <p>
-      Every other converter reads your macros, turns them into something else and tries
-      to rebuild them on the way back. That is where panels lose their colour, status
-      lozenges turn into plain words and column layouts collapse.
-    </p>
-    <p>
-      This one rebuilds nothing it does not have to. Whatever Markdown cannot carry is
-      lifted out before the conversion and dropped back in afterwards, unchanged. A marker
-      shows you where it sits, so you can move it or delete it on purpose — and cannot
-      corrupt it by accident.
-    </p>
-    <p>
-      And every paragraph you did not edit goes back as its original markup, not a
-      re-rendering of it. Tested on 76 real pages from public Confluence 9.2 and 10.2
-      instances: untouched, every one comes back identical to the last byte.
-    </p>
-
-    <figure>
-      <img src="editor.svg" alt="An editor window showing the page as Markdown, with a marker where the warning panel sits.">
-    </figure>
-
-    <figure>
-      <img src="roundtrip.svg" alt="A page is pulled into Markdown with markers standing in for macros, edited, and pushed back with the macros restored byte for byte.">
-    </figure>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>It will not let you overwrite a colleague</h2>
-    <p>
-      Publishing stops when the page moved on since your pull, and names who changed it
-      and when. It stops again when a marker went missing from your text, and names every
-      block that would have disappeared. Both exit with status 2, so a script can tell a
-      refusal from a crash.
-    </p>
-    <pre><span class="c">$</span> amber confluence push 100000001
-<span class="w">Refusing to publish: the page changed after you pulled it.</span>
-  your copy: v12
-  on the server: v14, last edited by John Doe at 2026-09-20T09:14:00Z
-
-Pull again and reapply your edit, or repeat with force to overwrite their work.</pre>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Old instances included</h2>
-    <div class="table-scroll">
-      <table>
-        <tr><td>Data Center 7.9+</td><td>A personal access token from your profile settings.</td></tr>
-        <tr><td>Anything older</td><td>Your usual password. Those versions have no tokens, and plenty of companies still run them.</td></tr>
-        <tr><td>A public wiki</td><td>Nothing at all.</td></tr>
-      </table>
-    </div>
-    <p class="dim" style="margin-top:18px">
-      Credentials live in your system keychain, never in a config file. Put a token in the
-      config file and it refuses to start, and tells you where the token belongs.
-    </p>
+      <figure>
+        <img src="roundtrip.svg" alt="A page is pulled into Markdown with markers standing in for macros, edited, and pushed back with the macros restored byte for byte.">
+      </figure>
+      <p class="dim">
+        Source, docs and tests on <a href="https://github.com/amber-tools/confluence-markdown">GitHub</a>.
+      </p>
+    </details>
   </div>
 </section>
 
@@ -481,7 +491,7 @@ Pull again and reapply your edit, or repeat with force to overwrite their work.<
   <div class="wrap">
     <h2>Let your agent edit the page you have open right now.</h2>
     <p class="dim" style="max-width:52ch;margin-bottom:24px">
-      One package, no dependencies, installs in under a second.
+      Get the skill, follow the steps above, and ask.
     </p>
     <div class="cta">
       <button class="copy" type="button" aria-label="Copy the install command">
@@ -493,7 +503,7 @@ Pull again and reapply your edit, or repeat with force to overwrite their work.<
         </svg>
         <span class="done">copied</span>
       </button>
-      <a class="button" href="https://github.com/amber-tools/confluence-markdown">GitHub →</a>
+      <a class="button" href="https://agensi.io/skills/amber-confluence-edit-self-hosted-confluence-with-ai">Get the agent skill →</a>
     </div>
   </div>
 </div>
